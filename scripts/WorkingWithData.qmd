@@ -1,0 +1,44 @@
+---
+title: "analysis"
+format: html
+---
+
+```{r}
+library(tidyverse)
+library(haven)
+library(readxl)
+library(labelled)
+codebook <- look_for(df)
+
+
+```
+
+```{r load-data}
+file_path <- file.path("..","data","data.por")
+
+df <-read_por(file_path)
+
+head(df)
+```
+
+```{r summary}
+
+summary(df)
+```
+
+```{r glimpse}
+
+glimpse(df)
+```
+
+```{r freq-age}
+freq(as.ordered(df$age), plot = FALSE)
+```
+
+#load library package descr #variable names found above in summary section
+
+library(descr)
+#MONTH, YEAR, TIME as time informative variables
+freq(as.ordered(df$MONTH), plot = FALSE)   
+freq(as.ordered(df$YEAR), plot = FALSE)
+freq(as.ordered(df$TIME), plot = FALSE)
