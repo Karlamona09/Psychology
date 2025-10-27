@@ -4,7 +4,7 @@ editor_options:
     wrap: 72
 ---
 
-# Post-Traumatic Stress Disorder Demographics Project
+# Post-Traumatic Stress Disorder Context Project
 
 ## Dataset: The dataset used in this project was obtained in
 
@@ -17,7 +17,8 @@ quality individuals such as demographics
 "Project on Human Development in Chicago Neighborhoods(PHDCN):Systematic
 Social Observation,1995"
 
-# Demographics in psychology Post-Traumatic Stress Disorder (PTSD)
+#Average Context in psychology Post-Traumatic Stress Disorder Cases
+(PTSD)
 
 symptoms emerge and persist. Some individuals show severe symptoms soon
 after a traumatic event, while others may develop difficulties years

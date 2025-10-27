@@ -21,6 +21,10 @@ df <-read_por(file_path)
 head(df)
 ```
 
+```{r}
+colnames(df)
+```
+
 ```{r summary}
 
 summary(df)
@@ -31,14 +35,23 @@ summary(df)
 glimpse(df)
 ```
 
-```{r freq-age}
-freq(as.ordered(df$age), plot = FALSE)
+```{r freq-context}
+freq(as.ordered(df$OQ6), plot = FALSE)
 ```
 
-#load library package descr #variable names found above in summary section
+#0Q6 as alcohol related context (empty beer bottles on sight) CONTEXT on PSTD as time informative interval, 1 is yes 2 is no.
 
-library(descr)
-#MONTH, YEAR, TIME as time informative interval
-freq(as.ordered(df$MONTH), plot = FALSE)   
-freq(as.ordered(df$YEAR), plot = FALSE)
-freq(as.ordered(df$DAY), plot = FALSE)
+```{r freq-context2}
+freq(as.ordered(df$D53), plot = FALSE)
+
+```
+
+##drunk or intoxicated people on sight. 1 is yes, 2 is no.
+
+```{r freq-context3}
+freq.(as.ordered(df$D15_12))
+```
+
+#non related alcohol contest as D15-12, 1 is no drinking establishment, and 2 means other categories
+
+`{df$OQ6[df$OQ6 == 1] <- "no"} freq(as.ordered(df$OQ6)`
