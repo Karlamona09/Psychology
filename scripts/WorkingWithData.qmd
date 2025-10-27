@@ -1,5 +1,5 @@
 ---
-title: "analysis"
+title: "WorkingWithData"
 format: html
 ---
 
@@ -38,7 +38,7 @@ freq(as.ordered(df$age), plot = FALSE)
 #load library package descr #variable names found above in summary section
 
 library(descr)
-#MONTH, YEAR, TIME as time informative variables
+#MONTH, YEAR, TIME as time informative interval
 freq(as.ordered(df$MONTH), plot = FALSE)   
 freq(as.ordered(df$YEAR), plot = FALSE)
-freq(as.ordered(df$TIME), plot = FALSE)
+freq(as.ordered(df$DAY), plot = FALSE)
