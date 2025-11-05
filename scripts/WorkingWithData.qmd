@@ -49,9 +49,28 @@ freq(as.ordered(df$D53), plot = FALSE)
 ##drunk or intoxicated people on sight. 1 is yes, 2 is no.
 
 ```{r freq-context3}
-freq.(as.ordered(df$D15_12))
+freq(as.ordered(df$D15_12))
 ```
 
-#non related alcohol contest as D15-12, 1 is no drinking establishment, and 2 means other categories
+#non related alcohol context as D15-12, 1 is no drinking establishment, and 2 means other categories
 
-`{df$OQ6[df$OQ6 == 1] <- "no"} freq(as.ordered(df$OQ6)`
+`{df$OQ6[df$OQ6 == 2] <- "no"} freq(as.ordered(df$OQ6)`
+
+`{df$D53[df$D53 == -99] <- "skipped"} freq(as.ordered(df$D53)`
+
+`{df$D15[df$D15 == 1] <- "yes"} freq(as.ordered(df$D15)`
+
+#not alcohol related context
+
+#what the majority picked when asked of context related (the three variables 1, 2, -99)
+
+```{r}
+
+#this turns -99 to NA (as compared to above one without) 
+#df$D53[df$D53 == -99 ] <- NA
+
+{df$D53[df$D53 == -99] <- NA}
+
+freq(as.ordered(df$D53), plot = FALSE)
+
+```
