@@ -116,3 +116,29 @@ levels(df$D53) <- c("skipped", "yes", "no") #renames the numbers to labels
 freq(as.ordered(df$D53), plot = FALSE)
 
 ```
+
+```{r}
+#Assignment 5 univariate  # elaborate
+ggplot(data = df, aes(x = D53)) +  
+  geom_bar(fill = "skyblue", color = "black") + 
+  ggtitle("drunken intoxicated people on block face") +
+  xlab("Camera count") +
+  ylab("Response Count") +
+  theme_minimal()
+
+
+
+#This graph demostrates the amount of streets where people were seen as intoxicated which information was taken from street cameras.
+```
+
+```{r}
+#Assignment 5 univariate #elaborate
+
+ggplot(data = df, aes(x = OQ5)) +  
+  geom_bar(fill = "skyblue", color = "black") + 
+  ggtitle("Condition of the streets in Chicago") +
+  xlab("Street condition") +
+  ylab("Amount of streets") +
+  theme_minimal()
+#This graph representated the condition of the streets by categories (1=under construction), (2=very poor), (3=fair), (4=moderately good), (5=good condition)
+```
