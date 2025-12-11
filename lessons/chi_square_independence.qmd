@@ -1,0 +1,93 @@
+---
+title: "chi_square_independence"
+author: "Karla Mona"
+date: "December 8, 2025"
+format:
+  pdf:
+    number-sections: true
+    toc: true
+    pdf-engine: xelatex
+editor: visual
+  markdown: 
+    wrap: 72
+---
+
+```{r}
+
+installed.packages("learnr", dependencies = TRUE)
+installed.packages("tidyverse", dependencies = TRUE)
+installed.packages("lsr", dependencies = TRUE)
+installed.packages("knitr", dependencies = TRUE)
+installed.packages("gapminder", dependencies = TRUE)
+installed.packages("haven", dependencies = TRUE)
+```
+
+\## Theory: What is a Chi-Square Test?
+
+Chi-Square tests assess whether observed categorical data differ significantly from what we would expect under a specific hypothesis.
+
+### Types of Chi-Square Tests:
+
+1.  **Goodness-of-Fit Test** – Compares one categorical variable to a theoretical distribution.
+2.  **Test of Independence** – Assesses whether two categorical variables are related.
+
+**Formula:** $$
+\chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}
+$$ Where: - (O_i) = Observed frequency - (E_i) = Expected frequency
+
+\`\`\`{r} \# Load Titanic dataset data("Titanic") df \<- as.data.frame(Titanic)
+
+# Create contingency table: Class vs Survived
+
+```{r}
+tab <- xtabs(Freq ~ Class + Survived, data = df) tab
+```
+
+# Run Chi-Square test
+
+chi_result \<- chisq.test(tab) chi_result
+
+# Check expected counts
+
+chi_result\$expected
+
+# Calculate Cramer's V
+
+n \<- sum(tab) min_dim \<- min(nrow(tab) - 1, ncol(tab) - 1)
+
+# 1) Load your data df \<- read.csv("your_file.csv") \# or readr::read_csv("your_file.csv")
+
+```{r}
+file_path <- "../data/raw/13578-0001-Data.por"
+df <-read_por(file_path)
+```
+
+# 2) Quick check: see column names and first rows
+
+names(df) head(df)
+
+# 3) Make sure OQ5 and OQ6 are categorical (factors)
+
+df$OQ5 <- factor(df$OQ5) df$OQ6 <- factor(df$OQ6)
+
+# Optional: remove rows with missing values in these two variables
+
+df \<- subset(df, !is.na(OQ5) & !is.na(OQ6))
+
+# 4) Build contingency table and run Chi-square
+
+tab \<- table(df$OQ5, df$OQ6) tab addmargins(tab)
+
+chi_result \<- chisq.test(tab) chi_result
+
+# 5) Check expected counts (assumption)
+
+chi_result\$expected
+
+# 6) Cramer's V
+
+n \<- sum(tab) min_dim \<- min(nrow(tab) - 1, ncol(tab) - 1) cramers_v \<- sqrt(as.numeric(chi_result\$statistic) / (n \* min_dim)) cramers_v
+
+# 7) Visualize
+
+mosaicplot(tab, color = TRUE, main = "OQ5 × OQ6")

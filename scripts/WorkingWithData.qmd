@@ -4,18 +4,26 @@ format: html
 ---
 
 ```{r}
+
+#Load libraries
+
 library(tidyverse)
 library(haven)
 library(readxl)
 library(labelled)
 codebook <- look_for(df)
+install.packages("descr")
+library(descr)
+
 
 
 ```
 
 ```{r load-data}
-file_path <- file.path("..","data","data.por")
 
+#Load dataset 
+
+file_path <- "../data/raw/13578-0001-Data.por"
 df <-read_por(file_path)
 
 head(df)
@@ -24,6 +32,8 @@ head(df)
 ```{r}
 colnames(df)
 ```
+
+#Explore Data
 
 ```{r summary}
 
@@ -34,6 +44,8 @@ summary(df)
 
 glimpse(df)
 ```
+
+#Analize Data
 
 ```{r freq-context}
 freq(as.ordered(df$OQ6), plot = FALSE)
@@ -83,7 +95,9 @@ freq(as.ordered(df$D53), plot = FALSE)
 
 ```{r}
 
-#Data Wrangling colapsing OQ5 simplifying the categories
+#Data Wrangling
+
+#colapsing OQ5 simplifying the categories
 
 df$OQ5[df$OQ5 == 1] <- 3 #streets in construction
 
@@ -94,14 +108,18 @@ df$OQ5[df$OQ5 == 3 | df$OQ5 == 4 | df$OQ5 == 5 ] <- 1 #streets in good condition
 freq(as.ordered(df$OQ5), plot = FALSE)
 ```
 
+{df\$D53\[df\$D53 == -99\] \<- "NA"} (df\$D53)
+
 ```{r}
-#Data Wrangling D53 drunks visible on street labeling responses
+#Data Wrangling 
+
+#D53 drunks visible on street labeling responses
 
 levels(df$D53) #checks the levels
 
 df$D53 <- as.factor(df$D53) #turns to factor to enable renaming of levels
 
-levels(df$D53) <- c("skipped", "yes", "no") #renames the numbers to labels
+#levels(df$D53) <- ("skipped", "yes", "no") #renames the numbers to labels
 
 #below is failed attempts to label but kept
 
@@ -112,13 +130,19 @@ levels(df$D53) <- c("skipped", "yes", "no") #renames the numbers to labels
 #{df$D53[df$D53 == ] <- "NA"} (df$D53)
 #{df$D53[df$D53 == 1] <- "yes"} (df$D53)
 #{df$D53[df$D53 == 2] <- "no"} (df$D53)
+#{df$D53[df$D53 == -99] <- "NA"} (df$D53)
+
+
                                           
 freq(as.ordered(df$D53), plot = FALSE)
 
 ```
 
 ```{r}
-#Assignment 5 univariate  # elaborate
+#Assignment 5 univariate 
+
+# elaborate
+
 ggplot(data = df, aes(x = D53)) +  
   geom_bar(fill = "skyblue", color = "black") + 
   ggtitle("drunken intoxicated people on block face") +
@@ -132,13 +156,53 @@ ggplot(data = df, aes(x = D53)) +
 ```
 
 ```{r}
-#Assignment 5 univariate #elaborate
 
-ggplot(data = df, aes(x = OQ5)) +  
-  geom_bar(fill = "skyblue", color = "black") + 
+#Assignment 5 univariate 
+
+#elaborate 2
+
+ggplot(data = df, aes(x = OQ5)) + 
+  geom_bar(fill = "skyblue", color = "black") +
   ggtitle("Condition of the streets in Chicago") +
   xlab("Street condition") +
   ylab("Amount of streets") +
   theme_minimal()
 #This graph representated the condition of the streets by categories (1=under construction), (2=very poor), (3=fair), (4=moderately good), (5=good condition)
+```
+
+```{r}
+
+#Example/Attempt
+
+#categorical explanatory, categorical response ====
+
+ggplot(data=df) +
+
+stat_summary(aes(x=as.factor(OQ5),
+
+ y=as.factor(D53)),
+
+ fun.y=mean, 
+
+ geom="bar")+
+
+ ggtitle("Descriptive Title Here")
+```
+
+```         
+```
+
+```{r}
+
+#Bivariate graph Assignment 6
+
+ggplot(df, aes(x = OQ5, fill = D53)) +
+  geom_bar(position = "stack") +
+  labs(title = "Overlap of street conditio and intoxicated people",
+       x = "Street condition",
+       y = "Places where intoxicated people were seen",
+       fill = "Variable 2 Category") +
+  theme_minimal()
+
+#Relation between how street conditions influence potentiall surroundings with intoxicated people
 ```
