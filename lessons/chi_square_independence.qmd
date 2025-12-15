@@ -35,13 +35,19 @@ Chi-Square tests assess whether observed categorical data differ significantly f
 \chi^2 = \sum \frac{(O_i - E_i)^2}{E_i}
 $$ Where: - (O_i) = Observed frequency - (E_i) = Expected frequency
 
-\`\`\`{r} \# Load Titanic dataset data("Titanic") df \<- as.data.frame(Titanic)
+# Load Titanic dataset data("Titanic") df \<- as.data.frame(Titanic)
 
 # Create contingency table: Class vs Survived
 
+
 ```{r}
-tab <- xtabs(Freq ~ Class + Survived, data = df) tab
-```
+# Load Titanic dataset
+data("Titanic")
+df <- as.data.frame(Titanic)
+
+# Create contingency table: Class vs Survived
+tab <- xtabs(Freq ~ Class + Survived, data = df)
+tab
 
 # Run Chi-Square test
 
@@ -55,39 +61,37 @@ chi_result\$expected
 
 n \<- sum(tab) min_dim \<- min(nrow(tab) - 1, ncol(tab) - 1)
 
-# 1) Load your data df \<- read.csv("your_file.csv") \# or readr::read_csv("your_file.csv")
-
-```{r}
+# 1) Load your data
 file_path <- "../data/raw/13578-0001-Data.por"
-df <-read_por(file_path)
-```
+df <- read_por(file_path)
 
-# 2) Quick check: see column names and first rows
+# 2) Quick check
+names(df)
+head(df)
 
-names(df) head(df)
+# 3) Make sure Q05 and Q06 are categorical (factors)
+df$Q05 <- factor(df$Q05)
+df$Q06 <- factor(df$Q06)
 
-# 3) Make sure OQ5 and OQ6 are categorical (factors)
+# 4) Remove rows with missing values in Q05 or Q06
+df <- subset(df, !is.na(Q05) & !is.na(Q06))
 
-df$OQ5 <- factor(df$OQ5) df$OQ6 <- factor(df$OQ6)
+# 5) Build contingency table
+tab <- table(df$Q05, df$Q06)
+addmargins(tab)
 
-# Optional: remove rows with missing values in these two variables
+# 6) Chi-square test
+chi_result <- chisq.test(tab)
+chi_result
 
-df \<- subset(df, !is.na(OQ5) & !is.na(OQ6))
+# 7) Check expected counts
+chi_result$expected
 
-# 4) Build contingency table and run Chi-square
+# 8) Cramer's V
+n <- sum(tab)
+min_dim <- min(nrow(tab) - 1, ncol(tab) - 1)
+cramers_v <- sqrt(as.numeric(chi_result$statistic) / (n * min_dim))
+cramers_v
 
-tab \<- table(df$OQ5, df$OQ6) tab addmargins(tab)
-
-chi_result \<- chisq.test(tab) chi_result
-
-# 5) Check expected counts (assumption)
-
-chi_result\$expected
-
-# 6) Cramer's V
-
-n \<- sum(tab) min_dim \<- min(nrow(tab) - 1, ncol(tab) - 1) cramers_v \<- sqrt(as.numeric(chi_result\$statistic) / (n \* min_dim)) cramers_v
-
-# 7) Visualize
-
-mosaicplot(tab, color = TRUE, main = "OQ5 × OQ6")
+# 9) Visualization
+mosaicplot(tab, color = TRUE, main = "Q05 x Q06")
